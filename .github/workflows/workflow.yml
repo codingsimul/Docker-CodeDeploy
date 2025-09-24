@@ -39,7 +39,7 @@ jobs:
         run: docker build -t dockerdeploy .
 
       - name: 도커파일이름변경
-        run: docker tag dockerDeploy ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
+        run: docker tag dockerdeploy ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
 
       - name: ecr전송
         run: docker push ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
