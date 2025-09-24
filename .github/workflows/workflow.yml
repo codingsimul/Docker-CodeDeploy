@@ -52,7 +52,7 @@ jobs:
           key: ${{secrets.EC2_PRIVATE_KEY}}
           script_stop: true
           script: |
-            docker stop dockerDeploy || true
-            docker rm dockerDeploy || true
+            docker stop dockerdeploy || true
+            docker rm dockerdeploy || true
             docker pull ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
             docker run -d --name dockerdeploy -p 8080:8080 ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
