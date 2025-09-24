@@ -44,15 +44,15 @@ jobs:
       - name: ecr전송
         run: docker push ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
 
-      - name: ec2원격접속
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{secrets.EC2_HOST}}
-          username: ${{secrets.EC2_USERNAME}}
-          key: ${{secrets.EC2_PRIVATE_KEY}}
-          script_stop: true
-          script: |
-            docker stop dockerdeploy || true
-            docker rm dockerdeploy || true
-            docker pull ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
-            docker run -d --name dockerdeploy -p 8080:8080 ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
+      - name: 프로젝트압축
+        run: tar -czvf $GITHUB_SHA.tar.gz appspec.yml scripts
+
+      - name: s3업로드
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://docker-deploy-s3/$GITHUB_SHA.tar.gz
+
+      - name: codeDeploy로 ec2 배포 명령
+        run: aws deploy create-deployment
+          --application-name code-deploy
+          --deployment-group-name production
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --s3-location bucket=docker-deploy-s3, bundleType=tgz, key=$GITHUB_SHA.tar.gz
