@@ -23,7 +23,7 @@ jobs:
       - name: 빌드와 테스트
         run: |
           chmod +x ./gradlew
-          ./gradelw clean build
+          ./gradlew clean build
       - name: aws 로그인
         uses: aws-actions/configure-aws-credentials@v4
         with:
