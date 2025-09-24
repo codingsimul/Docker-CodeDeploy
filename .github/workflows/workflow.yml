@@ -28,8 +28,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-northeast-2
-          aws-access-key-id: ${{AWS_ACCESS_KEY_ID}}
-          aws-secret-access-key: ${{AWS_SECRET-ACCESS-KEY}}
+          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET-ACCESS-KEY}}
 
       - name: ecr로그인
         uses: aws-actions/amazon-ecr-login@v2
