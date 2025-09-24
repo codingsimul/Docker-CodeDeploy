@@ -36,7 +36,7 @@ jobs:
         id: login-ecr
 
       - name: 도커빌드
-        run: docker build -t dockerDeploy .
+        run: docker build -t dockerdeploy .
 
       - name: 도커파일이름변경
         run: docker tag dockerDeploy ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
@@ -55,4 +55,4 @@ jobs:
             docker stop dockerDeploy || true
             docker rm dockerDeploy || true
             docker pull ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
-            docker run -d --name dockerDeploy -p 8080:8080 ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
+            docker run -d --name dockerdeploy -p 8080:8080 ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
