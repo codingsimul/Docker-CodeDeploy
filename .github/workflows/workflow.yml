@@ -18,7 +18,7 @@ jobs:
           java-version: 17
       - name: application.yml 추가
         run: |
-          mkdir ./src/main/resources
+          mkdir ./src/main/resources || true
           echo "${{secrets.APPLICATION_PROPERTIES}}" > ./src/main/resources/application.yml
       - name: 빌드와 테스트
         run: |
