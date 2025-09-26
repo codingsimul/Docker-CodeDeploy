@@ -54,6 +54,6 @@ jobs:
         run: |
           aws deploy create-deployment \
           --application-name code-deploy \
-          --deployment-group-name production1 \
+          --deployment-group-name production \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --s3-location bucket=docker-code-deploy-s3,bundleType=tgz,key=$GITHUB_SHA.tar.gz
