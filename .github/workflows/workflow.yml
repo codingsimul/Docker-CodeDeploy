@@ -7,7 +7,7 @@ on:
 jobs:
   workflow:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -39,20 +39,20 @@ jobs:
         run: docker build -t dockerdeploy .
 
       - name: 도커파일이름변경
-        run: docker tag dockerdeploy ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
+        run: docker tag dockerdeploy ${{steps.login-ecr.outputs.registry}}/docker-code-deploy:latest
 
       - name: ecr전송
-        run: docker push ${{steps.login-ecr.outputs.registry}}/junig-ecr:latest
+        run: docker push ${{steps.login-ecr.outputs.registry}}/docker-code-deploy:latest
 
       - name: 프로젝트압축
         run: tar -czvf $GITHUB_SHA.tar.gz appspec.yml scripts
 
       - name: s3업로드
-        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://docker-deploy-s3/$GITHUB_SHA.tar.gz
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://docker-code-deploy-s3/$GITHUB_SHA.tar.gz
 
       - name: codeDeploy로 ec2 배포 명령
         run: aws deploy create-deployment
           --application-name code-deploy
           --deployment-group-name production
           --deployment-config-name CodeDeployDefault.AllAtOnce
-          --s3-location bucket=docker-deploy-s3,bundleType=tgz,key=$GITHUB_SHA.tar.gz
+          --s3-location bucket=docker-code-deploy-s3,bundleType=tgz,key=$GITHUB_SHA.tar.gz
