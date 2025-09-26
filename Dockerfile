@@ -4,4 +4,4 @@
 
 FROM eclipse-temurin:17-alpine
 COPY ./build/libs/*SNAPSHOT.jar ./project.jar
-ENTRYPOINT ["java","-jar","projcet.jar"]
+ENTRYPOINT ["java","-jar","project.jar"]
