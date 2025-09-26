@@ -53,6 +53,6 @@ jobs:
       - name: codeDeploy로 ec2 배포 명령
         run: aws deploy create-deployment
           --application-name code-deploy
-          --deployment-group-name production
+          --deployment-group-name production1
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --s3-location bucket=docker-code-deploy-s3,bundleType=tgz,key=$GITHUB_SHA.tar.gz
